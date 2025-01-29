@@ -1,7 +1,9 @@
-//
-//  Protocols.swift
-//  HabitTracker
-//
-//  Created by Тимофей Олегович on 22.01.2025.
-//
+import UIKit
 
+protocol DateDisplayable: AnyObject {
+    func displayDate(dateString: Date)
+}
+
+protocol AddHabitDelegate: AnyObject {
+    func didAddNewHabit(_ habit: Habit)
+}
