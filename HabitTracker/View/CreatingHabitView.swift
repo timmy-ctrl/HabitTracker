@@ -39,7 +39,7 @@ extension CreatingHabitView {
     }
     
     private func setColorBG() {
-        self.backgroundColor = UIColor(red: 42/255, green: 41/255, blue: 48/255, alpha: 100/255)
+        self.backgroundColor = UIColor(red: 45/255, green: 41/255, blue: 48/255, alpha: 100/255)
     }
     
     private func setHabitNameTextField() {
@@ -61,3 +61,4 @@ extension CreatingHabitView {
         }
     }
 }
+

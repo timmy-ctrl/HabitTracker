@@ -3,7 +3,7 @@ import SnapKit
 
 final class MainView: UIView {
     
-    private let mainViewModel: MainViewModel
+    private let mainViewModel: MainModel
     
     public var habits: [Habit] = []
    
@@ -21,7 +21,7 @@ final class MainView: UIView {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor =  .clear
         tableView.separatorColor = .clear
         return tableView
        }()
@@ -34,7 +34,7 @@ final class MainView: UIView {
         return label
     }()
     
-    init(mainViewModel: MainViewModel) {
+    init(mainViewModel: MainModel) {
         self.mainViewModel = mainViewModel
         super.init(frame: .zero)
         setView()
@@ -111,14 +111,14 @@ extension MainView: UITableViewDelegate, UITableViewDataSource {
     func deleteHabit(at indexPath: IndexPath) {
         let habit = habits[indexPath.row]
         habits.remove(at: indexPath.row)
-        CoreDataManager.shared.deleteHabit(with: habit.id)
+        HabitManager.shared.deleteHabit(with: habit.id)
         tableView.deleteRows(at: [indexPath], with: .none)
     }
     
     func updatedHabit(_ updateHabit: Habit) {
         if let index = habits.firstIndex(where: {$0.id == updateHabit.id}) {
             habits[index] = updateHabit
-            CoreDataManager.shared.updateHabit(updateHabit)
+            HabitManager.shared.updateHabit(updateHabit)
             tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
     }

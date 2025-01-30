@@ -2,14 +2,15 @@ import UIKit
 
 final class CreatingHabitViewController: UIViewController {
     
-    weak var addHabitDelegate: AddHabitDelegate?
-    
+    weak var addHabitDelegate: habitUpdateDelegate?
+
     private var creatingHabitView: CreatingHabitView? {
         view as? CreatingHabitView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDelegates()
         createHabbit()
     }
     
@@ -32,10 +33,22 @@ extension CreatingHabitViewController {
                              trackedDays: [],
                              completedToday: false,
                              isButtonHighlighted: false)
-        CoreDataManager.shared.createHabit(from: newHabit)
+        HabitManager.shared.createHabit(from: newHabit)
         addHabitDelegate?.didAddNewHabit(newHabit)
         navigationController?.popToRootViewController(animated: true)
     }
 }
 
-
+//MARK: - UITextFieldDelegate
+extension CreatingHabitViewController: UITextFieldDelegate {
+    
+    func setDelegates() {
+        creatingHabitView?.habitNameTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        creatingHabitView?.habitNameTextField.resignFirstResponder()
+        return true
+    }
+    
+}

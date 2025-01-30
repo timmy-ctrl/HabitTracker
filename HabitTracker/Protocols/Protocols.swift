@@ -4,6 +4,6 @@ protocol DateDisplayable: AnyObject {
     func displayDate(dateString: Date)
 }
 
-protocol AddHabitDelegate: AnyObject {
+protocol habitUpdateDelegate: AnyObject {
     func didAddNewHabit(_ habit: Habit)
 }

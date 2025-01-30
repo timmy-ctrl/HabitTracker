@@ -43,7 +43,7 @@ final class HabitTableViewCell: UITableViewCell {
             button.translatesAutoresizingMaskIntoConstraints = false
             return button
         }()
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setViewCell()
@@ -103,7 +103,7 @@ extension HabitTableViewCell {
     @objc private func completeButtonTapped() {
         guard var habit = currentHabit else { return }
         habit.isButtonHighlighted.toggle()
-        CoreDataManager.shared.updateHabit(habit)
+        HabitManager.shared.updateHabit(habit)
         onComplete?(habit)
     }
 }

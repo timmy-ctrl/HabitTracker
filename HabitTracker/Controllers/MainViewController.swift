@@ -1,11 +1,22 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    
+    private let mainModel: MainModel
 
     private var mainView: MainView? {
         view as? MainView
     }
-
+    
+    init(mainViewModel: MainModel) {
+        self.mainModel = mainViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setMainVC()
@@ -14,9 +25,7 @@ final class MainViewController: UIViewController {
     }
     
     override func loadView() {
-        let dateManager = DateManager()
-        let mainViewModel = MainViewModel(dateManager: dateManager)
-        self.view = MainView(mainViewModel: mainViewModel)
+        self.view = MainView(mainViewModel: mainModel)
     }
     
     private func transitionToCreatingHabitVC() {
@@ -24,11 +33,8 @@ final class MainViewController: UIViewController {
     }
     
     private func loadHabits() {
-        let habits = CoreDataManager.shared.fetchHabits()
-        mainView?.habits = habits
-        for habit in habits {
-            print("Loaded habit: \(habit.title), isButtonHighlighted: \(habit.isButtonHighlighted)")
-        }
+        let habits = mainModel.habitManager?.fetchHabits()
+        mainView?.habits = habits ?? []
         mainView?.tableView.reloadData()
     }
     
@@ -70,7 +76,7 @@ extension MainViewController {
 }
 
 //MARK: - AddHabitDelegate
-extension MainViewController: AddHabitDelegate {
+extension MainViewController: habitUpdateDelegate {
     func didAddNewHabit(_ habit: Habit) {
         mainView?.habits.append(habit)
         DispatchQueue.main.async { [weak self] in
